@@ -8,13 +8,13 @@ xzvf/service/UserService.class
 xzvf/model/IRecord.class
 xzvf/configuration/HibernateConfiguration.class
 xzvf/configuration/AppInitializer.class
-xzvf/model/User.class
-xzvf/configuration/AppConfig.class
 xzvf/service/MailService$1.class
+xzvf/configuration/AppConfig.class
+xzvf/model/User.class
 xzvf/repository/AbstractRepository.class
 xzvf/enums/Gender.class
 xzvf/ErrorHandler.class
 xzvf/configuration/SecurityAppInitializer.class
-xzvf/controller/AbstractController.class
 xzvf/configuration/SecurityConfig.class
+xzvf/controller/AbstractController.class
 xzvf/enums/UserType.class

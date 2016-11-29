@@ -34,6 +34,7 @@ public class User implements IRecord {
 	private String middleName;
 	
 	private Date birthDate;
+	private String address;
 	private String contactNo;
 	private String email;
 	
@@ -208,6 +209,14 @@ public class User implements IRecord {
 	@Override
 	public void setEntryDate(Date entryDate) {
 		this.entryDate = entryDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

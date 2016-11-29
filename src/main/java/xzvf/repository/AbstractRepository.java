@@ -1,6 +1,7 @@
 package xzvf.repository;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -11,6 +12,7 @@ import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import xzvf.Utility;
 import xzvf.model.IRecord;
 
 @Transactional
@@ -36,6 +38,12 @@ public abstract class AbstractRepository<T> {
 	}
 
 	public void persist(IRecord record) {
+		record.setEntryBy(record.getEntryBy() != null ?
+				record.getEntryBy() : Utility.getSecurityPrincipal());
+			
+		record.setEntryDate(record.getEntryDate() != null ?
+				record.getEntryDate() : new Date());
+		
 		getSession().persist(record);
 	}
 

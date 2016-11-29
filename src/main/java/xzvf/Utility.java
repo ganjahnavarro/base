@@ -87,4 +87,8 @@ public final class Utility implements ApplicationContextAware {
 		Utility.context = context;
 	}
 	
+	public static boolean isLoggedIn() {
+		return Utility.getSecurityPrincipal() != null;
+	}
+	
 }
