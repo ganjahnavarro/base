@@ -39,7 +39,7 @@ public abstract class AbstractRepository<T> {
 
 	public void persist(IRecord record) {
 		record.setEntryBy(record.getEntryBy() != null ?
-				record.getEntryBy() : Utility.getSecurityPrincipal());
+				record.getEntryBy() : Utility.getUser());
 			
 		record.setEntryDate(record.getEntryDate() != null ?
 				record.getEntryDate() : new Date());

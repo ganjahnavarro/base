@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import xzvf.service.CustomUserDetailsService;
 
@@ -22,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService service;
 	
 	@Autowired
+	private AuthenticationFailureHandler authenticationFailureHandler;
+	
+	@Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(service);
     }
@@ -33,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/login")
 			.usernameParameter("userName").passwordParameter("password")
 			.defaultSuccessUrl("/dashboard", true)
+			.failureHandler(authenticationFailureHandler)
 			.and().exceptionHandling().accessDeniedPage("/accessdenied")
 			.and().csrf();
 	}

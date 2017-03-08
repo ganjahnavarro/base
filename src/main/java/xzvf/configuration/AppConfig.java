@@ -1,7 +1,9 @@
 package xzvf.configuration;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler;
 import org.springframework.security.web.method.annotation.AuthenticationPrincipalArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -61,6 +67,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 	
 	@Bean
+	public AuthenticationFailureHandler authenticationFailureHandler() {
+		ExceptionMappingAuthenticationFailureHandler handler = new ExceptionMappingAuthenticationFailureHandler();
+		Map<String, String> mapping = new ConcurrentHashMap<String, String>();
+		mapping.put(BadCredentialsException.class.getName(), "/login/badCredentials");
+		mapping.put(DisabledException.class.getName(), "/login/accountDisabled");
+		handler.setExceptionMappings(mapping);
+		return handler;
+	}
+	
+	@Bean
 	public CommonsMultipartResolver multipartResolver() {
 	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 	    
@@ -85,6 +101,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		properties.setProperty("mail.smtp.auth", "true");
 		properties.setProperty("mail.smtp.starttls.enable", "true");
 		properties.setProperty("mail.debug", "false");
+		properties.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
 		mailSender.setJavaMailProperties(properties);
 		return mailSender;
 	}

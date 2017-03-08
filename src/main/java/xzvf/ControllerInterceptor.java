@@ -21,7 +21,7 @@ public class ControllerInterceptor extends HandlerInterceptorAdapter {
 		initializeServices();
 		
 		if(modelAndView != null && modelAndView.getModelMap() != null){
-			modelAndView.getModelMap().addAttribute("userName", Utility.getSecurityPrincipal());
+			modelAndView.getModelMap().addAttribute("userName", Utility.getUser());
 		}
 		super.postHandle(request, response, handler, modelAndView);
 	}

@@ -44,7 +44,7 @@ public final class Utility implements ApplicationContextAware {
 	   return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	}
 
-	public static String getSecurityPrincipal() {
+	public static String getUser() {
 		if(SecurityContextHolder.getContext() != null && SecurityContextHolder.getContext().getAuthentication() != null){
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			
@@ -82,13 +82,27 @@ public final class Utility implements ApplicationContextAware {
 		}
 		return 0;
 	}
+	
+	public static boolean isLoggedUserAdmin() {
+		return getCurrentUserAccess() >= UserType.ADMIN.ordinal();
+	}
 
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		Utility.context = context;
 	}
 	
 	public static boolean isLoggedIn() {
-		return Utility.getSecurityPrincipal() != null;
+		return Utility.getUser() != null;
+	}
+	
+	public static <T extends Enum<?>> T searchEnum(Class<T> enumeration,
+	        String search) {
+	    for (T each : enumeration.getEnumConstants()) {
+	        if (each.name().compareToIgnoreCase(search) == 0) {
+	            return each;
+	        }
+	    }
+	    return null;
 	}
 	
 }

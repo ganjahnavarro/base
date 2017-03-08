@@ -36,18 +36,24 @@ public class HibernateConfiguration {
      
     @Bean
     public DataSource dataSource() {
-    	/*
-    	String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-    	String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
-    	String userName = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
-    	String password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-    	*/
+    	String host = System.getenv("OPENSHIFT_POSTGRESQL_DB_HOST");
+    	String port = System.getenv("OPENSHIFT_POSTGRESQL_DB_PORT");
+    	String userName = System.getenv("OPENSHIFT_POSTGRESQL_DB_USERNAME");
+    	String password = System.getenv("OPENSHIFT_POSTGRESQL_DB_PASSWORD");
+    	String url = "jdbc:postgresql://" + host + ":" + port + "/blooddonation";
     	
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl(url);
+        dataSource.setUsername(userName);
+        dataSource.setPassword(password);
+        
+        /*DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
-        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));*/
+        
         return dataSource;
     }
      

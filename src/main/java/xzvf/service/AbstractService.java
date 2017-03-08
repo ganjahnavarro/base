@@ -1,9 +1,7 @@
 package xzvf.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import xzvf.model.IRecord;
@@ -38,15 +36,7 @@ public abstract class AbstractService {
 	}
 	
 	public void update(IRecord source) {
-		IRecord destination = (IRecord) getRepository().findById(source.getId());
-
-		if (destination != null) {
-			try {
-				PropertyUtils.copyProperties(destination, source);
-			} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-				e.printStackTrace();
-			}
-		}
+		getRepository().merge(source);
 	}
 	
 }
